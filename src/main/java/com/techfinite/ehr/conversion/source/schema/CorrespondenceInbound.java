@@ -54,4 +54,8 @@ public class CorrespondenceInbound {
     private String category;
 
     private String letterStatus;
+
+    private String documentType;
+
+    private String attachmentContent;
 }

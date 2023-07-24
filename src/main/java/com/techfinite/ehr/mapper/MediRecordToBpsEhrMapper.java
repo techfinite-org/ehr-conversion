@@ -6,6 +6,7 @@ import com.techfinite.ehr.conversion.source.schema.PatientAddress;
 import com.techfinite.ehr.conversion.source.schema.PatientDetails;
 import com.techfinite.ehr.conversion.target.schema.Correspondence;
 import com.techfinite.ehr.conversion.target.schema.Document;
+import com.techfinite.ehr.conversion.target.schema.DocumentPage;
 import com.techfinite.ehr.conversion.target.schema.Patient;
 import com.techfinite.ehr.mapstruct.qualifier.WithTimezoneToLocalDate;
 import org.mapstruct.Mapper;

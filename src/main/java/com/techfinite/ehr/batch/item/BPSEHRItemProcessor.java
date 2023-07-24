@@ -1,17 +1,13 @@
 package com.techfinite.ehr.batch.item;
 
+import com.techfinite.ehr.conversion.source.schema.CorrespondenceInbound;
 import com.techfinite.ehr.conversion.source.schema.MediRecordPatient;
-import com.techfinite.ehr.conversion.target.schema.BPSEHRV2;
-import com.techfinite.ehr.conversion.target.schema.Correspondence;
-import com.techfinite.ehr.conversion.target.schema.CorrespondenceIn;
-import com.techfinite.ehr.conversion.target.schema.CorrespondenceOut;
-import com.techfinite.ehr.conversion.target.schema.Demographics;
-import com.techfinite.ehr.conversion.target.schema.Document;
-import com.techfinite.ehr.conversion.target.schema.Patient;
+import com.techfinite.ehr.conversion.target.schema.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.techfinite.ehr.mapper.MediRecordToBpsEhrMapper.MEDI_RECORD_TO_BPS_EHR_MAPPER;
@@ -31,7 +27,21 @@ public class BPSEHRItemProcessor implements ItemProcessor<MediRecordPatient, BPS
         MEDI_RECORD_TO_BPS_EHR_MAPPER.mapPatientDetails(mediRecordPatient.getPatientDetails(),patient);
         MEDI_RECORD_TO_BPS_EHR_MAPPER.mapPatientAddress(mediRecordPatient.getPatientAddress(),patient);
 
-        List<Document> correspondenceInDocs = MEDI_RECORD_TO_BPS_EHR_MAPPER.mapCorrespondenceInbound(mediRecordPatient.getCorrespondenceInbound());
+
+//        List<Document> correspondenceInDocs = MEDI_RECORD_TO_BPS_EHR_MAPPER.mapCorrespondenceInbound(mediRecordPatient.getCorrespondenceInbound());
+        List<Document> correspondenceInDocs = new ArrayList<>();
+        for ( CorrespondenceInbound correspondenceInbound: mediRecordPatient.getCorrespondenceInbound()) {
+            Document document = new Document();
+            document.setSENDERNAME(correspondenceInbound.getSenderName());
+            document.setDOCUMENTID(correspondenceInbound.getId());
+            document.setCREATED(correspondenceInbound.getCreatedDateTime());
+                DocumentPage documentPage = new DocumentPage();
+                documentPage.setDocType(correspondenceInbound.getDocumentType());
+                documentPage.setContent(correspondenceInbound.getAttachmentContent());
+            document.setDocumentPage(documentPage);
+            correspondenceInDocs.add(document);
+        }
+
         CorrespondenceIn correspondenceIn = CorrespondenceIn.builder().Document(correspondenceInDocs.toArray(new Document[0])).build();
 
         List<Correspondence> correspondenceOutDocs = MEDI_RECORD_TO_BPS_EHR_MAPPER.mapCorrespondenceOutbound(mediRecordPatient.getCorrespondenceOutbound());
