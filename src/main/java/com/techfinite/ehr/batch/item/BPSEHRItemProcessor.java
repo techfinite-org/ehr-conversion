@@ -24,12 +24,12 @@ public class BPSEHRItemProcessor implements ItemProcessor<MediRecordPatient, BPS
         Demographics demographics = new Demographics();
         Patient patient = new Patient();
 
-        MEDI_RECORD_TO_BPS_EHR_MAPPER.mapPatientDetails(mediRecordPatient.getPatientDetails(),patient);
+        MEDI_RECORD_TO_BPS_EHR_MAPPER.mapPatientDetail(mediRecordPatient.getPatientDetails(),patient);
         MEDI_RECORD_TO_BPS_EHR_MAPPER.mapPatientAddress(mediRecordPatient.getPatientAddress(),patient);
 
 
-//        List<Document> correspondenceInDocs = MEDI_RECORD_TO_BPS_EHR_MAPPER.mapCorrespondenceInbound(mediRecordPatient.getCorrespondenceInbound());
-        List<Document> correspondenceInDocs = new ArrayList<>();
+        List<Document> correspondenceInDocs = MEDI_RECORD_TO_BPS_EHR_MAPPER.mapCorrespondenceInbound(mediRecordPatient.getCorrespondenceInbound());
+        /*List<Document> correspondenceInDocs = new ArrayList<>();
         for ( CorrespondenceInbound correspondenceInbound: mediRecordPatient.getCorrespondenceInbound()) {
             Document document = new Document();
             document.setSENDERNAME(correspondenceInbound.getSenderName());
@@ -40,7 +40,7 @@ public class BPSEHRItemProcessor implements ItemProcessor<MediRecordPatient, BPS
                 documentPage.setContent(correspondenceInbound.getAttachmentContent());
             document.setDocumentPage(documentPage);
             correspondenceInDocs.add(document);
-        }
+        }*/
 
         CorrespondenceIn correspondenceIn = CorrespondenceIn.builder().Document(correspondenceInDocs.toArray(new Document[0])).build();
 

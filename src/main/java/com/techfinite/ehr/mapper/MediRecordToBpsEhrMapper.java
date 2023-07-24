@@ -29,11 +29,11 @@ public interface MediRecordToBpsEhrMapper {
     @Mapping(source = "dob", target = "DOB")
     @Mapping(source = "mobilePhone", target = "MOBILEPHONE")
     @Mapping(source = "ethnicityCode", target = "ETHNICCODE")
-    @Mapping(source = "genderCode", target = "SEXCODE")
+    @Mapping(source = "gender", target = "SEXCODE")
     @Mapping(source = "dateOfDeath", target = "DATEOFDEATH")
     @Mapping(source = "email", target = "EMAIL")
     @Mapping(source = "createdDateTime", target = "CREATED", qualifiedBy = WithTimezoneToLocalDate.class)
-    Patient mapPatientDetails(PatientDetails patientDetails, @MappingTarget Patient patient);
+    Patient mapPatientDetail(PatientDetails patientDetails, @MappingTarget Patient patient);
 
     @Mapping(source = "addressLine1", target = "ADDRESS1")
     @Mapping(source = "addressLine2", target = "ADDRESS2")
@@ -43,7 +43,10 @@ public interface MediRecordToBpsEhrMapper {
 
 
     @Mapping(source="id", target = "DOCUMENTID")
+    @Mapping(source="senderName", target="SENDERNAME")
     @Mapping(source="createdDateTime",  target = "CREATED", qualifiedBy = WithTimezoneToLocalDate.class)
+    @Mapping(source="documentType",target="DocumentPage.DocType")
+    @Mapping(source="attachmentContent",target="DocumentPage.Content")
     Document mapCorrespondenceIn(CorrespondenceInbound correspondenceInbound);
 
     List<Document> mapCorrespondenceInbound(List<CorrespondenceInbound> correspondenceInbounds);

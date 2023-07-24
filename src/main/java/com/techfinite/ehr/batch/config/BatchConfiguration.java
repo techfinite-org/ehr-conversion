@@ -35,6 +35,12 @@ public class BatchConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
 
+    @Value("${outbound.dir}")
+    private String outputDir;
+
+    @Value("${inbound.dir}")
+    private String inputDir;
+
     @Autowired
     public BatchConfiguration(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory) {
         this.jobBuilderFactory = jobBuilderFactory;
@@ -46,7 +52,7 @@ public class BatchConfiguration {
     public JsonItemReader<MediRecordPatient> itemReader(@Value("#{jobParameters['patient_file']}") String patientFile) throws UnexpectedInputException, ParseException {
         var reader = new JsonItemReader<MediRecordPatient>();
         reader.setJsonObjectReader(new JacksonJsonObjectReader<>(MediRecordPatient.class));
-        reader.setResource(new ClassPathResource(patientFile));
+        reader.setResource(new FileSystemResource(inputDir + patientFile));
         return reader;
     }
 
@@ -55,7 +61,7 @@ public class BatchConfiguration {
     public ItemWriter<BPSEHRV2> itemWriter(Marshaller marshaller,@Value("#{jobParameters['output_file']}") String outputFile) {
         var itemWriter = new NoRootStaxEventItemWriter<BPSEHRV2>();
         itemWriter.setMarshaller(marshaller);
-        itemWriter.setResource(new FileSystemResource("d:/work/"+outputFile));
+        itemWriter.setResource(new FileSystemResource(outputDir +outputFile));
         itemWriter.open(new ExecutionContext());
         return itemWriter;
     }
