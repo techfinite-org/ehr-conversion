@@ -28,8 +28,6 @@ public interface MediRecordToBpsEhrMapper {
     @Mapping(source = "preferredName", target = "PREFERREDNAME")
     @Mapping(source = "dob", target = "DOB")
     @Mapping(source = "mobilePhone", target = "MOBILEPHONE")
-    @Mapping(source = "ethnicityCode", target = "ETHNICCODE")
-    @Mapping(source = "gender", target = "SEXCODE")
     @Mapping(source = "dateOfDeath", target = "DATEOFDEATH")
     @Mapping(source = "email", target = "EMAIL")
     @Mapping(source = "createdDateTime", target = "CREATED", qualifiedBy = WithTimezoneToLocalDate.class)
@@ -53,7 +51,9 @@ public interface MediRecordToBpsEhrMapper {
 
 
     @Mapping(source="id", target = "RECORDID")
-    @Mapping(source="createdDateTime",  target = "CORRESPONDENCEDATE", qualifiedBy = WithTimezoneToLocalDate.class)
+    @Mapping(source="senderName", target="SENDERNAME")
+    @Mapping(source="createdDateTime",  target = "CREATED", qualifiedBy = WithTimezoneToLocalDate.class)
+    @Mapping(source="htmlContent",target="CONTENT")
     Correspondence mapCorrespondenceOut(CorrespondenceOutbound correspondenceOutbound);
 
     List<Correspondence> mapCorrespondenceOutbound(List<CorrespondenceOutbound> correspondenceOutbounds);

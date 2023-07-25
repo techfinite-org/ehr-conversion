@@ -52,4 +52,5 @@ public class CorrespondenceOutbound {
     private String category;
 
     private String letterStatus;
+
 }

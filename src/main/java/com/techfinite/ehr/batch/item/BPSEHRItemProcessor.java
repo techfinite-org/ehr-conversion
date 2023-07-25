@@ -29,18 +29,6 @@ public class BPSEHRItemProcessor implements ItemProcessor<MediRecordPatient, BPS
 
 
         List<Document> correspondenceInDocs = MEDI_RECORD_TO_BPS_EHR_MAPPER.mapCorrespondenceInbound(mediRecordPatient.getCorrespondenceInbound());
-        /*List<Document> correspondenceInDocs = new ArrayList<>();
-        for ( CorrespondenceInbound correspondenceInbound: mediRecordPatient.getCorrespondenceInbound()) {
-            Document document = new Document();
-            document.setSENDERNAME(correspondenceInbound.getSenderName());
-            document.setDOCUMENTID(correspondenceInbound.getId());
-            document.setCREATED(correspondenceInbound.getCreatedDateTime());
-                DocumentPage documentPage = new DocumentPage();
-                documentPage.setDocType(correspondenceInbound.getDocumentType());
-                documentPage.setContent(correspondenceInbound.getAttachmentContent());
-            document.setDocumentPage(documentPage);
-            correspondenceInDocs.add(document);
-        }*/
 
         CorrespondenceIn correspondenceIn = CorrespondenceIn.builder().Document(correspondenceInDocs.toArray(new Document[0])).build();
 

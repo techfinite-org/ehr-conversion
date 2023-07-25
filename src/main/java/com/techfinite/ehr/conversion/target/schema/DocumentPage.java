@@ -11,13 +11,13 @@ import lombok.NoArgsConstructor;
 @Builder
 public class DocumentPage {
 
-    private String Content;
-
     private String FileName;
 
     private String PageNo;
 
     private String DocType;
+
+    private String Content;
 
     @Override
     public String toString() {
