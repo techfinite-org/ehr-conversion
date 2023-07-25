@@ -1,8 +1,9 @@
 package com.techfinite.ehr.mapper;
 
 import com.techfinite.ehr.conversion.source.schema.*;
-import com.techfinite.ehr.conversion.target.schema.*;
-import com.techfinite.ehr.conversion.target.schema.Practice;
+import com.techfinite.ehr.conversion.target.schema.Correspondence;
+import com.techfinite.ehr.conversion.target.schema.Document;
+import com.techfinite.ehr.conversion.target.schema.Patient;
 import com.techfinite.ehr.mapstruct.qualifier.WithTimezoneToLocalDate;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -30,12 +31,11 @@ public interface MediRecordToBpsEhrMapper {
     @Mapping(source = "recordStatus", target = "RECORDSTATUS")
     @Mapping(source = "createdDateTime", target = "CREATED", qualifiedBy = WithTimezoneToLocalDate.class)
     Patient mapPatientDetail(PatientDetails patientDetails, @MappingTarget Patient patient);
-/*
 
-    @Mapping(source = "practiceName", target = "PracticeName")
-    @Mapping(source = "practiceId", target = "PracticeID")
-    Practice mapPracticeDetails(PracticeDetails practiceDetails, @MappingTarget Practice practice);
-*/
+    @Mapping(source = "practiceName", target = "practiceName")
+    @Mapping(source = "practiceId", target = "practiceID")
+    com.techfinite.ehr.conversion.target.schema.Practice mapPracticeDetails(Practice practiceDetails, @MappingTarget com.techfinite.ehr.conversion.target.schema.Practice practice);
+
 
     @Mapping(source = "addressLine1", target = "ADDRESS1")
     @Mapping(source = "addressLine2", target = "ADDRESS2")
@@ -50,7 +50,7 @@ public interface MediRecordToBpsEhrMapper {
     @Mapping(source = "pensionCardno", target = "PENSIONNO")
     @Mapping(source = "pensionCardExpiry", target = "PENSIONEXPIRY")
     @Mapping(source = "dvaNo", target = "DVANO")
-    @Mapping(source = "dvaCardType", target = "DVACODE")
+    @Mapping(source = "dvaCardtype", target = "DVACODE")
     Patient mapPatientSettings(PatientSettings patientSettings, @MappingTarget Patient patient);
 
 

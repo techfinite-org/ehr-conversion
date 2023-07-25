@@ -22,5 +22,5 @@ public class MediRecordPatient {
     private PatientSettings patientSettings;
     private List<CorrespondenceInbound> correspondenceInbound;
     private List<CorrespondenceOutbound> correspondenceOutbound;
-    private PracticeDetails practiceDetails;
+    private Practice practice;
 }

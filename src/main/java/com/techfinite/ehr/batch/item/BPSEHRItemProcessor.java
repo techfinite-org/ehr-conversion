@@ -27,7 +27,8 @@ public class BPSEHRItemProcessor implements ItemProcessor<MediRecordPatient, BPS
 
         MEDI_RECORD_TO_BPS_EHR_MAPPER.mapPatientDetail(mediRecordPatient.getPatientDetails(),patient);
         MEDI_RECORD_TO_BPS_EHR_MAPPER.mapPatientAddress(mediRecordPatient.getPatientAddress(),patient);
-//        MEDI_RECORD_TO_BPS_EHR_MAPPER.mapPracticeDetails(mediRecordPatient.getPracticeDetails(), practice);
+        MEDI_RECORD_TO_BPS_EHR_MAPPER.mapPatientSettings(mediRecordPatient.getPatientSettings(),patient);
+        MEDI_RECORD_TO_BPS_EHR_MAPPER.mapPracticeDetails(mediRecordPatient.getPractice(), practice);
 
         List<Document> correspondenceInDocs = MEDI_RECORD_TO_BPS_EHR_MAPPER.mapCorrespondenceInbound(mediRecordPatient.getCorrespondenceInbound());
 
@@ -37,6 +38,7 @@ public class BPSEHRItemProcessor implements ItemProcessor<MediRecordPatient, BPS
         CorrespondenceOut correspondenceOut = CorrespondenceOut.builder().Correspondence(correspondenceOutDocs.toArray(new Correspondence[0])).build();
 
         demographics.setPatient(patient);
+        bpsehrv2.setPractice(practice);
         bpsehrv2.setDemographics(demographics);
         bpsehrv2.setCorrespondenceIn(correspondenceIn);
         bpsehrv2.setCorrespondenceOut(correspondenceOut);

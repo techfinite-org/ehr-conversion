@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class PracticeDetails {
+public class Practice {
     private String practiceName;
     private String practiceId;
 

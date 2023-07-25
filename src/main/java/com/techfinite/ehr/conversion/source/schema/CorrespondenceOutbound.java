@@ -53,4 +53,6 @@ public class CorrespondenceOutbound {
 
     private String letterStatus;
 
+    private String recordStatus;
+
 }

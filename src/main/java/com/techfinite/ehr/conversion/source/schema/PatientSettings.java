@@ -15,6 +15,8 @@ public class PatientSettings
 
     private String accountPayerCode;
 
+    private String patientId;
+
     private String medicareAlias;
 
     private String medicareFirstNameAlias;
@@ -22,6 +24,8 @@ public class PatientSettings
     private String dvaNo;
 
     private String createdDateTime;
+
+    private String ihiRecordStatusCode;
 
     private String research;
 
@@ -33,6 +37,8 @@ public class PatientSettings
 
     private String providerId;
 
+    private String ihiNoStatusCode;
+
     private String id;
 
     private String healthFundExpiryDate;
@@ -40,8 +46,6 @@ public class PatientSettings
     private String healthFundNo;
 
     private String medicareIRN;
-
-    private String dvaCardType;
 
     private String eprescribing;
 
@@ -53,13 +57,15 @@ public class PatientSettings
 
     private String pensionCardExpiry;
 
-    private String pensionCardtype;
-
     private String dvaConditions;
+
+    private String pensionCardtype;
 
     private String medicareNo;
 
     private String updatedDateTime;
+
+    private String dvaCardtype;
 
     private String chartNo;
 
@@ -78,7 +84,7 @@ public class PatientSettings
     @Override
     public String toString()
     {
-        return "ClassPojo [racfId = "+racfId+", accountPayerCode = "+accountPayerCode+", medicareAlias = "+medicareAlias+", medicareFirstNameAlias = "+medicareFirstNameAlias+", dvaNo = "+dvaNo+", createdDateTime = "+createdDateTime+", research = "+research+", medicareExpiry = "+medicareExpiry+", pensionCardno = "+pensionCardno+", medicareSurNameAlias = "+medicareSurNameAlias+", providerId = "+providerId+", id = "+id+", healthFundExpiryDate = "+healthFundExpiryDate+", healthFundNo = "+healthFundNo+", medicareIRN = "+medicareIRN+", dvaCardType = "+dvaCardType+", eprescribing = "+eprescribing+", updatedBy = "+updatedBy+", healthFundUPI = "+healthFundUPI+", appointmentIntervalCode = "+appointmentIntervalCode+", pensionCardExpiry = "+pensionCardExpiry+", pensionCardtype = "+pensionCardtype+", dvaConditions = "+dvaConditions+", medicareNo = "+medicareNo+", updatedDateTime = "+updatedDateTime+", chartNo = "+chartNo+", accountTypeId = "+accountTypeId+", ihiNo = "+ihiNo+", createdBy = "+createdBy+", medicareAddress = "+medicareAddress+", safetyNetNo = "+safetyNetNo+", appointmentNotes = "+appointmentNotes+"]";
+        return "ClassPojo [racfId = "+racfId+", accountPayerCode = "+accountPayerCode+", patientId = "+patientId+", medicareAlias = "+medicareAlias+", medicareFirstNameAlias = "+medicareFirstNameAlias+", dvaNo = "+dvaNo+", createdDateTime = "+createdDateTime+", ihiRecordStatusCode = "+ihiRecordStatusCode+", research = "+research+", medicareExpiry = "+medicareExpiry+", pensionCardno = "+pensionCardno+", medicareSurNameAlias = "+medicareSurNameAlias+", providerId = "+providerId+", ihiNoStatusCode = "+ihiNoStatusCode+", id = "+id+", healthFundExpiryDate = "+healthFundExpiryDate+", healthFundNo = "+healthFundNo+", medicareIRN = "+medicareIRN+", eprescribing = "+eprescribing+", updatedBy = "+updatedBy+", healthFundUPI = "+healthFundUPI+", appointmentIntervalCode = "+appointmentIntervalCode+", pensionCardExpiry = "+pensionCardExpiry+", dvaConditions = "+dvaConditions+", pensionCardtype = "+pensionCardtype+", medicareNo = "+medicareNo+", updatedDateTime = "+updatedDateTime+", dvaCardtype = "+dvaCardtype+", chartNo = "+chartNo+", accountTypeId = "+accountTypeId+", ihiNo = "+ihiNo+", createdBy = "+createdBy+", medicareAddress = "+medicareAddress+", safetyNetNo = "+safetyNetNo+", appointmentNotes = "+appointmentNotes+"]";
     }
 }
 		
