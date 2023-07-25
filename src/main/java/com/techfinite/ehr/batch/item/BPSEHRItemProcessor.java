@@ -23,10 +23,11 @@ public class BPSEHRItemProcessor implements ItemProcessor<MediRecordPatient, BPS
         bpsehrv2.setBPSVersion("1.12.0.998");
         Demographics demographics = new Demographics();
         Patient patient = new Patient();
+        Practice practice = new Practice();
 
         MEDI_RECORD_TO_BPS_EHR_MAPPER.mapPatientDetail(mediRecordPatient.getPatientDetails(),patient);
         MEDI_RECORD_TO_BPS_EHR_MAPPER.mapPatientAddress(mediRecordPatient.getPatientAddress(),patient);
-
+//        MEDI_RECORD_TO_BPS_EHR_MAPPER.mapPracticeDetails(mediRecordPatient.getPracticeDetails(), practice);
 
         List<Document> correspondenceInDocs = MEDI_RECORD_TO_BPS_EHR_MAPPER.mapCorrespondenceInbound(mediRecordPatient.getCorrespondenceInbound());
 

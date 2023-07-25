@@ -58,4 +58,7 @@ public class CorrespondenceInbound {
     private String documentType;
 
     private String attachmentContent;
+
+    private String recordStatus;
+
 }
