@@ -5,6 +5,7 @@ import com.techfinite.ehr.conversion.target.schema.BPSEHRV2;
 import com.techfinite.ehr.xml.writer.NoRootStaxEventItemWriter;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -22,10 +23,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 
 @Configuration
@@ -58,10 +62,14 @@ public class BatchConfiguration {
 
     @Bean(destroyMethod = "")
     @StepScope
-    public ItemWriter<BPSEHRV2> itemWriter(Marshaller marshaller,@Value("#{jobParameters['output_file']}") String outputFile) {
+    public ItemWriter<BPSEHRV2> itemWriter(Marshaller marshaller,@Value("#{jobParameters['output_file']}") String outputFile) throws IOException {
         var itemWriter = new NoRootStaxEventItemWriter<BPSEHRV2>();
+        FileSystemResource fileSystemResource =  new FileSystemResource(outputDir +outputFile);
+        if (fileSystemResource.exists()) {
+            Files.delete(Path.of(outputDir + outputFile));
+        }
         itemWriter.setMarshaller(marshaller);
-        itemWriter.setResource(new FileSystemResource(outputDir +outputFile));
+        itemWriter.setResource(fileSystemResource);
         itemWriter.open(new ExecutionContext());
         return itemWriter;
     }
@@ -90,6 +98,7 @@ public class BatchConfiguration {
     public Job job(@Qualifier("step1") Step step) {
         return jobBuilderFactory
                 .get("ehrGenerateJob")
+                .incrementer(new RunIdIncrementer())
                 .start(step)
                 .build();
     }

@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+
 @RestController
 @CrossOrigin
 @RequestMapping(path = "/ehr/api/v1")
@@ -34,6 +36,7 @@ public class EHRApiController {
         JobParameters jobParameters = new JobParametersBuilder()
                 .addString("patient_file", inputFile)
                 .addString("output_file", outputFile)
+                .addDate("date",new Date())
                 .toJobParameters();
         // launch job only if file exists in DB and is not processed
         final JobExecution jobExecution = jobLauncher.run(ehrGenerateJob, jobParameters);

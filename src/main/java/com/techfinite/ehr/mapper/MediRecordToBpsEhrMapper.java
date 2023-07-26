@@ -4,12 +4,17 @@ import com.techfinite.ehr.conversion.source.schema.*;
 import com.techfinite.ehr.conversion.target.schema.Correspondence;
 import com.techfinite.ehr.conversion.target.schema.Document;
 import com.techfinite.ehr.conversion.target.schema.Patient;
+import com.techfinite.ehr.mapstruct.qualifier.Base64AttachmentEncoder;
 import com.techfinite.ehr.mapstruct.qualifier.WithTimezoneToLocalDate;
+import io.micrometer.core.instrument.util.StringUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -18,6 +23,8 @@ import java.util.List;
 public interface MediRecordToBpsEhrMapper {
 
     MediRecordToBpsEhrMapper MEDI_RECORD_TO_BPS_EHR_MAPPER = Mappers.getMapper(MediRecordToBpsEhrMapper.class);
+
+    public static final String DOCTYPE_HTML = "HTML";
 
     @Mapping(source = "firstName", target = "FIRSTNAME")
     @Mapping(source = "middleName", target = "MIDDLENAME")
@@ -55,11 +62,14 @@ public interface MediRecordToBpsEhrMapper {
 
 
     @Mapping(source="id", target = "DOCUMENTID")
+    @Mapping(source="senderName", target="CONTACTNAME")
+    @Mapping(source= "subject", target = "CATEGORY")
+    @Mapping(source="subject", target="SUBJECT")
     @Mapping(source="senderName", target="SENDERNAME")
     @Mapping(source="createdDateTime",  target = "CREATED", qualifiedBy = WithTimezoneToLocalDate.class)
     @Mapping(source="createdDateTime",  target = "CORRESPONDENCEDATE", qualifiedBy = WithTimezoneToLocalDate.class)
     @Mapping(source="documentType",target="DocumentPage.DocType")
-    @Mapping(source="attachmentContent",target="DocumentPage.Content")
+    @Mapping(source="attachmentContent",target="DocumentPage.Content", qualifiedBy = Base64AttachmentEncoder.class)
     @Mapping(source = "recordStatus", target = "RECORDSTATUS")
     Document mapCorrespondenceIn(CorrespondenceInbound correspondenceInbound);
 
@@ -67,13 +77,18 @@ public interface MediRecordToBpsEhrMapper {
 
 
     @Mapping(source="id", target = "RECORDID")
+    @Mapping(source="senderName", target="CONTACTNAME")
     @Mapping(source="senderName", target="SENDERNAME")
+    @Mapping(source= "subject", target = "CATEGORY")
+    @Mapping(source = "recordStatus", target = "RECORDSTATUS")
     @Mapping(source="createdDateTime",  target = "CREATED", qualifiedBy = WithTimezoneToLocalDate.class)
     @Mapping(source="createdDateTime",  target = "CORRESPONDENCEDATE", qualifiedBy = WithTimezoneToLocalDate.class)
+    @Mapping(source="subject", target="SUBJECT")
+    @Mapping(source="attachmentContent", target="CONTENT", qualifiedBy = Base64AttachmentEncoder.class)
+    @Mapping(source="documentType", target="DOCTYPE")
     Correspondence mapCorrespondenceOut(CorrespondenceOutbound correspondenceOutbound);
 
     List<Correspondence> mapCorrespondenceOutbound(List<CorrespondenceOutbound> correspondenceOutbounds);
-
 
     @WithTimezoneToLocalDate
     default String timezoneToLocalDate(String source) {
@@ -81,5 +96,12 @@ public interface MediRecordToBpsEhrMapper {
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate localDate = LocalDate.parse(source.substring(0,10),inputFormatter);
         return localDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
+
+    @Base64AttachmentEncoder
+    static String base64EncodeAttachment(String content) {
+        byte[] contentBytes = content.getBytes(StandardCharsets.UTF_8);
+        byte[] bytes = Base64.encodeBase64(contentBytes);
+        return new String(bytes);
     }
 }

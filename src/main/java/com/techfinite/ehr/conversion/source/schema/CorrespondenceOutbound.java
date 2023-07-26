@@ -55,4 +55,8 @@ public class CorrespondenceOutbound {
 
     private String recordStatus;
 
+    private String documentType;
+
+    private String attachmentContent;
+
 }
