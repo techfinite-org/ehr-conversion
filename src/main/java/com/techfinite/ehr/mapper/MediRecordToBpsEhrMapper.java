@@ -36,6 +36,10 @@ public interface MediRecordToBpsEhrMapper {
     @Mapping(source = "email", target = "EMAIL")
     @Mapping(source = "patientStatus", target = "PATIENTSTATUS")
     @Mapping(source = "recordStatus", target = "RECORDSTATUS")
+    @Mapping(source = "notes", target = "OTHERNOTES")
+    @Mapping(source = "preferredName", target = "PREFERREDNAME")
+    @Mapping(source = "homePhone", target = "HOMEPHONE")
+    @Mapping(source = "officePhone", target = "OFFICEPHONE")
     @Mapping(source = "createdDateTime", target = "CREATED", qualifiedBy = WithTimezoneToLocalDate.class)
     Patient mapPatientDetail(PatientDetails patientDetails, @MappingTarget Patient patient);
 
