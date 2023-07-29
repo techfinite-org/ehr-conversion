@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.tomcat.util.codec.binary.Base64;
+
+import java.nio.charset.StandardCharsets;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -58,5 +61,14 @@ public class CorrespondenceOutbound {
     private String documentType;
 
     private String attachmentContent;
+
+    public String encodeAttachmentContent(String content, String docType) {
+        if (docType.equals("HTML")) {
+            byte[] contentBytes = content.getBytes(StandardCharsets.UTF_8);
+            byte[] bytes = Base64.encodeBase64(contentBytes);
+            return new String(bytes);
+        }
+        return content;
+    }
 
 }

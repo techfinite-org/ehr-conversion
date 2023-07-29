@@ -72,7 +72,7 @@ public interface MediRecordToBpsEhrMapper {
     @Mapping(source="createdDateTime",  target = "CREATED", qualifiedBy = WithTimezoneToLocalDate.class)
     @Mapping(source="createdDateTime",  target = "CORRESPONDENCEDATE", qualifiedBy = WithTimezoneToLocalDate.class)
     @Mapping(source="documentType",target="DocumentPage.DocType")
-    @Mapping(source="attachmentContent",target="DocumentPage.Content", qualifiedBy = Base64AttachmentEncoder.class)
+    @Mapping(source="attachmentContent",target="DocumentPage.Content")
     @Mapping(source = "recordStatus", target = "RECORDSTATUS")
     Document mapCorrespondenceIn(CorrespondenceInbound correspondenceInbound);
 
@@ -87,7 +87,7 @@ public interface MediRecordToBpsEhrMapper {
     @Mapping(source="createdDateTime",  target = "CREATED", qualifiedBy = WithTimezoneToLocalDate.class)
     @Mapping(source="createdDateTime",  target = "CORRESPONDENCEDATE", qualifiedBy = WithTimezoneToLocalDate.class)
     @Mapping(source="subject", target="SUBJECT")
-    @Mapping(source="attachmentContent", target="CONTENT", qualifiedBy = Base64AttachmentEncoder.class)
+    @Mapping(target="CONTENT", expression = "java(correspondenceOutbound.encodeAttachmentContent(correspondenceOutbound.getAttachmentContent(), correspondenceOutbound.getDocumentType()))")
     @Mapping(source="documentType", target="DOCTYPE")
     Correspondence mapCorrespondenceOut(CorrespondenceOutbound correspondenceOutbound);
 
@@ -101,10 +101,5 @@ public interface MediRecordToBpsEhrMapper {
         return localDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
-    @Base64AttachmentEncoder
-    static String base64EncodeAttachment(String content) {
-        byte[] contentBytes = content.getBytes(StandardCharsets.UTF_8);
-        byte[] bytes = Base64.encodeBase64(contentBytes);
-        return new String(bytes);
-    }
+
 }
